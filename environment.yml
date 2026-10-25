@@ -1,0 +1,13 @@
+name: probe
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - numpy>=1.26,<3
+  - rdkit>=2024.09,<2026
+  - openbabel>=3.1,<4
+  - scipy>=1.10
+  - gemmi>=0.6
+  - pip:
+      - -e .[docking]

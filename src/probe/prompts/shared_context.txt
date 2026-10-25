@@ -1,0 +1,15 @@
+[Context 1 -- Current core canvas (mapped SMILES)]
+  {mapped_smi}
+
+[Context 1.5 -- Current atom dictionary]
+  {atom_legend}
+
+{site_resolution_note}
+
+[Context 2 -- EditManual (per-site records)]
+  {edit_manual_json}
+
+{global_heuristics}
+
+[Context 3 -- Site modification history (prior edits, outcomes, banned moves)]
+  {site_history}

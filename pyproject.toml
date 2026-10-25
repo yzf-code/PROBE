@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "probe-sbdd"
+version = "0.1.0"
+description = "Probe Before You Edit: probing-guided molecular optimization for LLM agents"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+authors = [
+  {name = "Zaifei Yang"}, {name = "Weiyu Chen"},
+  {name = "Yaqing Wang"}, {name = "James Kwok"},
+]
+dependencies = [
+  "numpy>=1.26,<3",
+  "rdkit>=2024.9,<2026",
+  "openai>=1.30,<3",
+]
+
+[project.optional-dependencies]
+docking = ["vina>=1.2.5,<2", "meeko>=0.6,<0.8", "gemmi>=0.6", "scipy>=1.10", "plip>=2.3,<4"]
+
+[project.scripts]
+probe = "probe.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"probe.prompts" = ["*.txt"]
+

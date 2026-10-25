@@ -1,0 +1,102 @@
+You are the Lead SBDD Medicinal Chemist. A deterministic analyzer has
+compressed the 12 probe responses (3 strategies x 4 intensity tiers) into a
+symbolic summary using the standard labels:
+  forward_shape         in { monotone, activity_cliff, saturation, flat_negative }
+  counterfactual_signal in { load_bearing, actively_harmful, non_causal }
+Your task is to consolidate this evidence -- together with the site map and
+the strategies sigma_A, sigma_B, sigma_C -- into a pocket-specific
+EditManual.
+
+[Diagnosis Context (initial state, site map s_1..s_n)]
+  {diagnosis_report}
+
+[Strategies sigma_A, sigma_B, sigma_C from the Probing Planner]
+  {strategies_block}
+
+[Pre-computed evidence]
+  {global_highlights}
+  {response_summary}
+
+[Your mission]
+  1. SITE-LEVEL ABSTRACTION.
+       Index every entry by the abstract site (s_1..s_n), not by atom
+       indices and not by strategy name. The molecule mutates across rounds;
+       atom indices are not stable, but each site is named after its
+       originating fragment / pharmacophore role.
+  2. EVIDENCE AGGREGATION.
+       For each site, pull together every probe whose target_site equals
+       this site -- possibly drawn from multiple strategies. Cite probe_ids
+       when stating a verdict.
+  3. STRATEGY VERDICT.
+       For each strategy sigma_k, state whether the observed forward_shape
+       / counterfactual_signal validates or invalidates tau_k (the
+       trade-off sigma_k claimed to accept).
+  4. SEMANTIC ENVELOPES.
+       Translate physical responses into the 5 semantic tags used by the
+       Fragment Assembly Engine: size / polarity / flexibility / shape /
+       charge.
+  5. SA / QED PROTECTION.
+       Any probe carrying [SA-LIABILITY] or [QED-DROP] mandates that its exact
+       chemical feature enters the per-site Blacklist.
+  6. ACTION GUARDRAILS.
+       For each site, derive which of { Grow, Replace_Terminal_Group,
+       Replace_Sidechain_or_Ring, Delete_Group } are allowed vs. forbidden,
+       each justified by a probe outcome.
+
+[Output -- STRICT JSON]
+{
+  "EditManual": {
+    "Global_Summary":
+        "Pocket-level laws inferred across sites (spatial limits, SA
+         ceilings, etc.).",
+
+    "Strategy_Verdicts": [
+      {
+        "strategy_id"          : "A | B | C",
+        "claimed_tradeoff"     : "verbatim tau_k from sigma_k",
+        "forward_shape"        : "monotone | activity_cliff | saturation | flat_negative",
+        "counterfactual_signal": "load_bearing | actively_harmful | non_causal",
+        "verdict"              : "validated | partially_validated | invalidated",
+        "reasoning"            : "Tie verdict to specific probe_ids and delta values."
+      }
+    ],
+
+    "Per_Site_Records": [
+      {
+        "site_id"            : "s_i",
+        "originating_motif"  : "Name of the chemical group (e.g., sulfonamide arm).",
+        "pharmacophore_role" : "anchor | linker | hydrophobic core | solvent-exposed tail | Liability",
+        "evidence_probes"    : ["Probe_A_02", "Probe_C_01"],
+        "diagnostic_insight" :
+            "Contrast each probe's expected_signal against its actual
+             delta_Vina / delta_QED / delta_SA.",
+
+        "action_guardrails": {
+          "allowed_actions"  : ["..."],
+          "forbidden_actions": [
+            "Delete_Group: forbidden -- counterfactual_signal=load_bearing on Probe_A_04."
+          ]
+        },
+
+        "semantic_envelopes": {
+          "size"       : "Small | Medium | Large permitted; others forbidden",
+          "polarity"   : "...",
+          "flexibility": "...",
+          "shape"      : "...",
+          "charge"     : "..."
+        },
+
+        "blacklist": [
+          "STRICTLY BANNED: <chemical feature> -- justified by <probe_id> [SA-LIABILITY]."
+        ]
+      }
+    ],
+
+    "Combinatorial_Guidance": {
+      "orthogonal_sites": [["s_i", "s_j"], "..."],
+      "mutually_exclusive_edits": [
+        { "sites": ["s_i", "s_k"], "reason": "..." }
+      ]
+    }
+  }
+}

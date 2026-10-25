@@ -1,0 +1,75 @@
+As the Lead Computational Chemist and SBDD Strategist, translate the
+[Site Map] into three competing Strategies along the affinity-druggability
+trade-off.
+
+[CRITICAL INSTRUCTIONS -- ANTI-HALLUCINATION & STRUCTURAL SANITY]
+  1. NO PROMPT COPYING.
+       Base each strategy strictly on the chemical nature of the sites in
+       the Site Map.
+  2. ABSTRACT OPERATIONS ONLY.
+       Each strategy must be expressed as a chemically explicit edit
+       prescription (e.g., extending an H-bond donor, hopping to an achiral
+       bioisostere, ring-opening, pruning).
+  3. STRUCTURAL-ALERT / COMPLEXITY COMPLIANCE.
+       Unless the strategy explicitly accepts druggability damage
+       (Strategy A), structural modifications should reduce complexity,
+       avoid unnecessary chiral centers, and avoid spiro / bridged /
+       fully-sp3 fused ring systems.
+
+[Task: Emit three Strategies sigma_k = < V_k, pi_k, tau_k >]
+  For each strategy, output exactly the three fields:
+    - Targeted Sites (V_k):
+        the subset of sites from the Site Map this strategy will act on,
+        cited as <fragment_name, atom_indices>, together with the site's
+        type (SYNERGY / TENSION / LIABILITY).
+    - Edit Prescription (pi_k):
+        the chemically explicit edit(s) to perform at those sites.
+    - Trade-off (tau_k):
+        the trade-off this strategy explicitly accepts.
+
+Format exactly as follows.
+
+**Strategy A -- Affinity-first**
+  Objective:
+      Push Vina by exploiting pocket voids and repairing geometric
+      mismatches, accepting druggability damage.
+  * Targeted Sites (V_k):
+      [fragment_name, atom_indices, type] -- prefer SYNERGY sites and the
+      spacious / void-adjacent side of TENSION sites.
+  * Edit Prescription (pi_k):
+      How to maximize interactions at those sites (e.g., extend toward an
+      unfilled subpocket, install an H-bond donor, fill a hydrophobic void).
+  * Trade-off (tau_k):
+      Explicitly accept degradation of QED / LogP / SA from the added
+      complexity.
+
+**Strategy B -- Druggability-first**
+  Objective:
+      Strip toward a Minimal Viable Pharmacophore and MANDATORILY repair
+      every LIABILITY site, accepting an affinity drop.
+  * Targeted Sites (V_k):
+      [fragment_name, atom_indices, type] -- must include EVERY LIABILITY site
+      from the Site Map; may additionally select the low-QED / high-SA side
+      of TENSION sites.
+  * Edit Prescription (pi_k):
+      Pruning / ring-opening / aromatization / chiral-center removal /
+      bioisosteric simplification at the targeted sites.
+  * Trade-off (tau_k):
+      Explicitly accept a Vina drop in exchange for maximized QED, LE, and
+      clean SA.
+
+**Strategy C -- Co-optimization**
+  Objective:
+      Aim for an affinity-druggability win-win, primarily by acting on
+      TENSION sites with scaffold-level transformations.
+  * Targeted Sites (V_k):
+      [fragment_name, atom_indices, type] -- focus on TENSION sites (and
+      SYNERGY sites where a scaffold-level move is justified).
+  * Edit Prescription (pi_k):
+      Scaffold hopping or bioisosteric replacement that breaks the
+      Vina-vs-QED zero-sum, while keeping the new scaffold chemically
+      reasonable (standard aromatic / heterocyclic rings, consistent
+      hybridization; do NOT introduce highly complex sp3 networks).
+  * Trade-off (tau_k):
+      Target joint improvement on Vina and QED, while keeping SA and
+      structural alerts within acceptable bounds.

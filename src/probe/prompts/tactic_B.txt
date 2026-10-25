@@ -1,0 +1,30 @@
+**Strategy B -- Druggability-first.**
+  - Primary objective:
+      strip toward a minimal viable pharmacophore; mandatorily repair every
+      LIABILITY site (structural alerts, excessive chirality, complex
+      fused / bridged rings).
+  - Accepted trade-off (tau_B):
+      a Vina drop is allowed in exchange for cleaner SA, higher QED, and LE.
+
+[STRUCTURAL REPAIR RULE]
+  Inspect the input. If complex all-sp3 fused rings, multiple chiral centers,
+  macrocycles, or flagged structural alerts are present in sigma_B.V,
+  you MUST break / flatten / dechiralize them.
+
+Design exactly 4 probes -- three forward-intensity tiers + one counterfactual:
+  1. "High intensity" -- Prune Liability / Tension sites.
+       Aggressive pruning (Delta N_heavy <= -4); remove bulky lipophilic
+       groups, open complex fused rings into a single ring, or strip multiple
+       chiral centers in one move.
+  2. "Medium intensity" -- Trim peripheral liabilities.
+       Surgical pruning (-3 <= Delta N_heavy <= -1); drop redundant terminals
+       or simplify a substituted ring into an unsubstituted standard ring.
+  3. "Low intensity" -- Shave solvent-exposed atoms.
+       Minimal pruning (Delta N_heavy = -1); remove a single solvent-exposed
+       atom (terminal methyl / halogen) that contributes no binding energy.
+  4. "Counterfactual" -- Add sp3 bloat.
+       Reverse-direction probe (Delta N_heavy >= +3): attach a synthetically
+       difficult, unnecessary sp3-rich bulky group (tert-butyl / cyclopentyl)
+       to a solvent-exposed atom.
+       Expected signal: if SA / QED collapse without Vina gain, mass at this
+       site is purely harmful, confirming the pruning direction is causal.

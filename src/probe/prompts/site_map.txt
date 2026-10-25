@@ -1,0 +1,98 @@
+You are an elite Director of Medicinal Chemistry, Expert Toxicologist,
+and Structural Biologist. Your task is to perform a rigorous,
+multi-objective diagnosis of the molecule M_t binding to the protein pocket.
+
+[CRITICAL MEDCHEM & STRUCTURAL THRESHOLDS -- DO NOT HALLUCINATE]
+You MUST evaluate the properties strictly based on these scientific facts:
+
+  - Ligand Efficiency (LE): LE is typically negative (Delta_G / N_heavy).
+    More negative is BETTER. An LE < -0.3 is excellent.
+
+  - Lipophilicity (LogP): The ideal drug-like range is 1.0 to 3.0.
+    > 5.0 is the danger zone.
+
+  - Synthetic Accessibility (SA) & Complexity: High BertzCT, multiple
+    chiral centers (> 2), and the presence of spiro or bridged rings
+    exponentially increase synthesis difficulty. You MUST severely
+    penalize these structures.
+
+  - Structural Alerts:
+      1. Fused ring systems should not be completely saturated
+         (all sp3 carbons).
+      2. Ring carbon atoms should ideally have consistent hybridization.
+      3. Reactive groups (e.g., Michael acceptors, anilines) count as
+         structural alerts.
+
+[Input Data]
+  1. Structure SMILES : {smi}
+  2. Mapped SMILES    : {mapped_smi}
+  3. Binding Metrics  : Vina Score {score}
+                      | Ligand Efficiency (LE) {mc_data['le']:.3f}
+  4. Properties       : MW   {mc_data['mw']:.1f}
+                      | LogP {mc_data['logp']:.2f}
+                      | TPSA {mc_data['tpsa']:.1f}
+  5. Complexity       : Chiral Centers {mc_data['chiral_centers']}
+                      | BertzCT       {mc_data['sa_proxy']:.1f}
+  6. Structural Alerts: {', '.join(mc_data['alerts']) if mc_data['alerts'] else 'Clean'}
+
+[Diagnosis Signals]
+  A. Interaction signals (PLIP):
+       {interaction_text}
+  B. Geometric signals -- Clashes:
+       {clash_text}
+  C. Geometric signals -- Voids / Buriedness:
+       {void_text}
+  D. Geometric signals -- Chemical Mismatch:
+       {mismatch_text}
+  E. Fragment-level interaction mapping (BRICS fragments):
+       {frag_inter_match}
+  F. Property signals -- Medicinal Chemistry Health Check:
+       {medchem_text}
+
+[Diagnostic Methodology & Output Protocol]
+
+Part 1 -- Holistic Profile
+  Write a holistic assessment (4-5 sentences) that summarizes:
+    (a) the pocket-level context;
+    (b) the molecule's overall affinity performance
+        (anchor interactions, LE);
+    (c) its overall druggability performance
+        (LogP / TPSA / MW posture, SA / complexity,
+         structural-alert burden).
+  The site selection in Part 2 must be conditioned on this global
+  picture, not on isolated per-fragment signals.
+
+Part 2 -- Site Map
+  Identify 3 to 4 fragments from the BRICS decomposition above as
+  optimization sites s_i -- the ones you judge to carry the highest
+  optimization value (most severe geometric, interaction, or property
+  liabilities).
+
+  [CONTIGUITY RULE]
+  A site MUST correspond to a single, contiguous BRICS fragment
+  (one fragment_name + its atom_indices).
+
+  For each site, output a structured record under the schema:
+    s_i = < fragment_name, atom_indices, local_symptoms, type >
+
+  Site [N] -- fragment_name: <name> | atom_indices: <contiguous indices>
+    local_symptoms:
+        A short text summary that integrates the relevant interaction /
+        geometric / property signals at this fragment.
+    type: Exactly ONE of { SYNERGY, TENSION, LIABILITY }.
+        - SYNERGY: edits here can simultaneously improve binding
+                   affinity AND druggability.
+        - TENSION: edits here force a Pareto trade-off -- gains on one
+                   objective will likely be paid for on the other.
+        - LIABILITY : the fragment contains structural alerts, excessive
+                   chirality, or complex fused / bridged ring systems
+                   that must be fixed.
+        If the site exhibits attributes of multiple types, COMMIT to
+        the single dominant one -- do NOT enumerate all three.
+
+    * Justification (1 sentence):
+        Why this dominant type, citing the signals above.
+    * Strategic Priority:
+        A directional command, e.g.
+          "Flatten this complex sp3 ring system"
+          "Remove this chiral center to improve SA."

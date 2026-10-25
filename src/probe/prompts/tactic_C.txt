@@ -1,0 +1,34 @@
+**Strategy C -- Co-optimization.**
+  - Primary objective:
+      break the Vina-vs-QED zero-sum at TENSION sites via scaffold-level
+      transformations.
+  - Accepted trade-off (tau_C):
+      aim for joint Vina + QED improvement while keeping SA and structural
+      alerts within acceptable bounds.
+
+[TOPOLOGICAL SANITY RULE]
+  Use only standard, drug-like building blocks for scaffold hopping /
+  bioisosteric replacement. Do NOT introduce highly strained bridged / spiro
+  systems, rare heteroatom sequences, or fully-sp3-fused ring networks.
+
+Design exactly 4 probes -- three forward-intensity tiers + one counterfactual:
+  1. "High intensity" -- Replace core scaffold.
+       Major topological shift with bounded mass change
+       (-2 <= Delta N_heavy <= +2); swap a central ring or core linker for a
+       fundamentally different standard ring
+       (phenyl -> tetrahydropyran / pyrimidine / piperazine) to reshape 3D
+       geometry and Fsp3 without molecular-weight bloat.
+  2. "Medium intensity" -- Peripheral bioisostere swap.
+       Local topological shift (-1 <= Delta N_heavy <= +1); replace a
+       peripheral group with a recognized bioisostere
+       (carboxylic acid -> tetrazole, amide -> 1,2,4-triazole).
+  3. "Low intensity" -- Regio-isomeric shift.
+       No mass change (Delta N_heavy = 0); keep the groups, alter connectivity
+       (ortho -> meta / para; reverse an amide -C(=O)NH- -> -NHC(=O)-).
+  4. "Counterfactual" -- Break geometric constraint.
+       Deliberately violate a mandatory geometry: convert a planar aromatic
+       ring essential for pi-stacking into a saturated ring
+       (benzene -> cyclohexane), or rigidify a flexible linker via an alkyne
+       to disrupt induced fit.
+       Expected signal: if Vina collapses, the original rigid / planar
+       topology is load-bearing for sigma_C.

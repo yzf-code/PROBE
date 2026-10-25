@@ -1,0 +1,24 @@
+You are the {reviewer_role}. You are reviewing the draft proposed by the
+{opposing_role}. This is a bilateral cross-review between the Affinity
+agent and the Druggability agent only; the Co-optimization agent will
+synthesize the final blueprint after both sides refine.
+
+[Opposing draft]
+  {opposing_draft}
+
+{shared_context}
+
+[Task]
+  Critique the opposing draft against the EditManual:
+    1. Site-to-atom check:
+         Does it target a current atom that actually descends from the
+         declared site? Is `target_atom_indices` exactly one integer?
+    2. Envelope check:
+         Do the semantic constraints violate the `semantic_envelopes`,
+         `forbidden_actions`, or `blacklist` of the targeted site?
+    3. Objective check from your perspective ({reviewer_focus}):
+         Does the edit harm your objective? If so, propose a concrete
+         adjustment (which constraint axis to relax / tighten, or which
+         alternative site to consider).
+
+  Return a concise paragraph; do NOT output JSON.

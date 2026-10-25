@@ -1,0 +1,30 @@
+**Strategy A -- Affinity-first.**
+  - Primary objective:
+      push Vina by exploiting pocket voids and repairing geometric mismatches.
+  - Accepted trade-off (tau_A):
+      degradation of QED / LogP / SA from added complexity is allowed,
+      but synthetic tractability must remain reasonable.
+
+[CHEMICAL SANITY RULE]
+  When adding mass, prefer flat, synthetically accessible motifs (standard
+  aromatic / heteroaromatic rings, simple aliphatic chains, common
+  heterocycles). Do NOT introduce new stereocenters, spiro / bridged /
+  fully-sp3-fused ring systems.
+
+Design exactly 4 probes -- three forward-intensity tiers + one counterfactual:
+  1. "High intensity" -- Fill pocket void with ring.
+       Substantial volume addition (Delta N_heavy >= +4); insert a complete
+       standard ring system (e.g., phenyl / pyridyl / morpholino) into a
+       void identified for sigma_A.
+  2. "Medium intensity" -- Add functional group.
+       Moderate volume addition (+1 <= Delta N_heavy <= +3); attach a small
+       group (isopropyl, CF3, amide linker).
+  3. "Low intensity" -- Isosteric tweak.
+       Minimal volume change (Delta N_heavy in {0, +1}); bioisosteric
+       substitution (-CH3 -> -CF3, phenyl -> pyridyl) to retune electrostatics.
+  4. "Counterfactual" -- Delete functional group.
+       Reverse-direction probe (Delta N_heavy <= -1): remove a key H-bond
+       donor / acceptor or anchor.
+       Expected signal: if Vina worsens, the original group is load-bearing;
+       if Vina is unchanged, the strategy probes a non-causal direction;
+       if Vina improves, the targeted group is actively harmful.

@@ -1,0 +1,13 @@
+[Physical & Chemical Diagnosis Reports of the Input Molecule]
+  A. PLIP Report:
+       {interaction_text}
+  B. Steric Overlap Report:
+       {steric_overlap_text}
+  C. Void / Buriedness Report:
+       {void_text}
+  D. Chemical Mismatch Report:
+       {mismatch_text}
+  E. Fragment Information:
+       {frag_inter_match}
+  F. Medicinal Chemistry Health Check:
+       {medchem_text}

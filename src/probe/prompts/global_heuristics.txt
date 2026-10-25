@@ -1,0 +1,7 @@
+[Global heuristics on druggability and synthesizability]
+  1. Synthesizability is a hard constraint: any edit that drastically
+     reduces SA is rejected.
+  2. Avoid forcing exotic bonds (e.g., N-O, N-F) through
+     `pharmacophore_smarts`.
+  3. Prefer empty `pharmacophore_smarts` and rely on semantic constraints
+     to retrieve stable fragments.

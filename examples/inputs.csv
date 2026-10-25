@@ -1,0 +1,2 @@
+id,smiles,receptor,reference_ligand,receptor_pdbqt
+example_001,CCOc1ccccc1C(=O)N,pocket/receptor.pdb,pocket/reference.sdf,

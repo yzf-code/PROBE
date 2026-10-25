@@ -1,0 +1,8 @@
+[Site-to-atom resolution]
+  The EditManual indexes records by abstract sites s_1..s_n defined on the
+  *original* molecule. The current canvas has evolved across rounds, so
+  atom indices on the canvas are NOT the indices used in the EditManual.
+  Before targeting any site, perform site-to-atom resolution:
+    1. Read `originating_motif` for the chosen site in the EditManual.
+    2. Locate the descendant of that motif in the current Atom Dictionary.
+    3. Restrict your modification to those current atom indices only.

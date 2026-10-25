@@ -1,0 +1,38 @@
+You are the {self_role}.
+{shared_context}
+
+[Your original draft]
+  {your_draft}
+
+[Cross-review from the {opposing_role}]
+  {opposing_review}
+
+[Task]
+  Revise your draft to address the cross-review while staying faithful to
+  your own objective ({self_focus}). Keep `target_atom_indices` exactly one
+  integer.
+
+[Output -- STRICT JSON]
+{
+  "design_id": "Refined_{self_tag}",
+  "analysis": {
+    "target_site_mapping": "...",
+    "review_response":
+        "State each point raised by the {opposing_role} and how the
+         revision addresses it (or why it is rejected with reference to
+         the EditManual)."
+  },
+  "modification_logic": {
+    "action"                : "...",
+    "target_atom_indices"   : [0],
+    "modification_directive": "...",
+    "constraints": {
+      "size"       : "...",
+      "polarity"   : "...",
+      "flexibility": "...",
+      "shape"      : "...",
+      "charge"     : "..."
+    },
+    "pharmacophore_smarts": ""
+  }
+}
